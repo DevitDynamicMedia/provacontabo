@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Dynamic Media</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-black: #000000;
+            --primary-white: #FFFFFF;
+            --primary-red: #E50914;
+            --secondary-red: #FF0000;
+            --gray-dark: #1A1A1A;
+            --gray-medium: #333333;
+            --gray-light: #666666;
+            --font-main: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Particle Canvas Background */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--primary-black);
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(229, 9, 20, 0.05), rgba(0, 0, 0, 0.8));
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 60px 5%;
+            background: var(--primary-black);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-red);
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .service-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .service-icon {
+            font-size: 1.8rem;
+            color: var(--primary-red);
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-white);
+            margin: 0;
+        }
+
+        .service-number {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            background: rgba(229, 9, 20, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        .service-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-red);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .service-toggle.rotated {
+            transform: rotate(180deg);
+        }
+
+        .service-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .service-content.expanded {
+            max-height: 1000px;
+        }
+
+        .service-description {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--gray-light);
+            line-height: 1.5;
+        }
+
+        .service-features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            color: var(--gray-light);
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .service-features li:hover {
+            color: var(--primary-white);
+        }
+
+        .service-features li:hover::before {
+            transform: scale(1.2);
+        }
+
+        .service-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: transparent;
+            color: var(--primary-white);
+            border: 2px solid var(--primary-red);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .service-btn:hover {
+            background-color: var(--primary-red);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+            color: var(--primary-white);           
+            text-decoration: none;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 60px 5%;
+            text-align: center;
+            background: var(--gray-dark);
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .cta-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-white);
+        }
+
+        .cta-description {
+            font-size: 1rem;
+            color: var(--gray-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: var(--primary-red);
+            color: var(--primary-white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        }
+
+        .cta-button:hover {
+            background: var(--secondary-red);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(229, 9, 20, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--gray-dark);
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .footer-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--primary-red);
+        }
+
+        .copyright {
+            color: var(--gray-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-red);
+            color: var(--primary-white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary-red);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .services-container {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                padding: 1rem 0;
+                text-align: center;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 0.8rem 0;
+                font-size: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 50vh;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .services-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .service-card {
+                padding: 1.2rem;
+            }
+            
+            .service-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .cta-title {
+                font-size: 1.5rem;
+            }
+            
+            .service-icon {
+                font-size: 1.5rem;
+            }
+            
+            .service-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Header & Navigation -->
+    <header id="header">
+        <a href="index.html" class="logo">Dynamic<span>Media</span></a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="process.html">Process</a>
+            <a href="index.html#contact">Contact</a>
+        </nav>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Our Digital Services</h1>
+        <p>Comprehensive digital solutions to elevate your brand, increase visibility, and drive measurable results</p>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-container">
+            <!-- Service 1: Web Development -->
+            <div class="service-card" data-service-id="1">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="service-title">Web Development</h3>
+                    </div>
+                    <div class="service-number">01</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        We create stunning, responsive websites that convert visitors into customers. Our development process focuses on user experience, performance, and modern design principles.
+                    </p>
+                    <ul class="service-features">
+                        <li>Custom website design and development</li>
+                        <li>Responsive mobile-friendly layouts</li>
+                        <li>E-commerce solutions</li>
+                        <li>Content Management Systems</li>
+                        <li>Website maintenance and updates</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Service 2: Social Media Management -->
+            <div class="service-card" data-service-id="2">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fas fa-hashtag"></i>
+                        </div>
+                        <h3 class="service-title">Social Media Management</h3>
+                    </div>
+                    <div class="service-number">02</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        We develop and implement comprehensive social media strategies that build brand awareness, engage your audience, and drive meaningful results.
+                    </p>
+                    <ul class="service-features">
+                        <li>Content strategy and planning</li>
+                        <li>Community management</li>
+                        <li>Social media analytics and reporting</li>
+                        <li>Brand voice development</li>
+                        <li>Influencer collaboration</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Service 3: Social Media Advertising -->
+            <div class="service-card" data-service-id="3">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h3 class="service-title">Social Media Advertising</h3>
+                    </div>
+                    <div class="service-number">03</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        Our targeted advertising campaigns on platforms like Facebook, Instagram, and LinkedIn deliver measurable ROI and help you reach your ideal customers.
+                    </p>
+                    <ul class="service-features">
+                        <li>Facebook & Instagram ads</li>
+                        <li>LinkedIn advertising</li>
+                        <li>Audience targeting and segmentation</li>
+                        <li>Ad creative development</li>
+                        <li>Performance tracking and optimization</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Service 4: Google Ads -->
+            <div class="service-card" data-service-id="4">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <h3 class="service-title">Google Ads</h3>
+                    </div>
+                    <div class="service-number">04</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        We create and optimize Google Ads campaigns that drive qualified traffic to your website, increase conversions, and maximize your advertising budget.
+                    </p>
+                    <ul class="service-features">
+                        <li>Search engine marketing (SEM)</li>
+                        <li>Display network advertising</li>
+                        <li>Remarketing campaigns</li>
+                        <li>Keyword research and optimization</li>
+                        <li>Conversion tracking and analytics</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Service 5: SEO -->
+            <div class="service-card" data-service-id="5">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="service-title">SEO Optimization</h3>
+                    </div>
+                    <div class="service-number">05</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        Improve your website's visibility in search engine results with our comprehensive SEO services designed to drive organic traffic and increase your online presence.
+                    </p>
+                    <ul class="service-features">
+                        <li>Keyword research and strategy</li>
+                        <li>On-page optimization</li>
+                        <li>Technical SEO audits</li>
+                        <li>Local SEO optimization</li>
+                        <li>Content optimization</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Service 6: Photography -->
+            <div class="service-card" data-service-id="6">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3 class="service-title">Photography</h3>
+                    </div>
+                    <div class="service-number">06</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        Our professional photography services capture your brand's essence, creating compelling visual content that tells your story and engages your audience.
+                    </p>
+                    <ul class="service-features">
+                        <li>Product photography</li>
+                        <li>Corporate and business photography</li>
+                        <li>Event coverage</li>
+                        <li>Lifestyle and brand photography</li>
+                        <li>Professional photo editing</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Service 7: Videography -->
+            <div class="service-card" data-service-id="7">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="service-title">Videography</h3>
+                    </div>
+                    <div class="service-number">07</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        From concept to final edit, we produce high-quality video content that captivates viewers, communicates your message, and drives engagement.
+                    </p>
+                    <ul class="service-features">
+                        <li>Commercial video production</li>
+                        <li>Social media video content</li>
+                        <li>Brand storytelling videos</li>
+                        <li>Product demonstration videos</li>
+                        <li>Professional video editing</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Service 8: Graphic Design -->
+            <div class="service-card" data-service-id="8">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3 class="service-title">Graphic Design</h3>
+                    </div>
+                    <div class="service-number">08</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        Create visually stunning designs that communicate your brand message effectively and leave a lasting impression on your audience.
+                    </p>
+                    <ul class="service-features">
+                        <li>Marketing collateral design</li>
+                        <li>Social media graphics</li>
+                        <li>Print design materials</li>
+                        <li>Digital advertisements</li>
+                        <li>Brand asset creation</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+
+            <!-- Service 9: Branding & Logo Creation -->
+            <div class="service-card" data-service-id="9">
+                <div class="service-header">
+                    <div class="service-title-wrapper">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="service-title">Branding & Logo Creation</h3>
+                    </div>
+                    <div class="service-number">09</div>
+                    <button class="service-toggle">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div class="service-content">
+                    <p class="service-description">
+                        We develop cohesive brand identities that differentiate your business, build trust with your audience, and create lasting impressions.
+                    </p>
+                    <ul class="service-features">
+                        <li>Logo design and development</li>
+                        <li>Brand identity systems</li>
+                        <li>Brand style guides</li>
+                        <li>Brand strategy development</li>
+                        <li>Visual identity creation</li>
+                    </ul>
+                    <a href="index.html#contact" class="service-btn">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Transform Your Digital Presence?</h2>
+            <p class="cta-description">
+                Let's discuss how our comprehensive services can drive results for your business. 
+                Schedule a free consultation today and take the first step toward digital excellence.
+            </p>
+            <a href="index.html#contact" class="cta-button">Start Your Project</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Dynamic<span>Media</span></div>
+            <p class="copyright">© 2025 Dynamic Media. All Rights Reserved.</p>
+            <a href="#" class="back-to-top">Back to Top</a>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Background System with White & Red Particles
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Particle system with white and red colors
+        const particles = [];
+        const particleCount = 60; // Reduced for mobile performance
+        const colors = [
+            'rgba(255, 255, 255, 0.8)',  // White
+            'rgba(255, 255, 255, 0.6)',  // White
+            'rgba(229, 9, 20, 0.8)',     // Red
+            'rgba(229, 9, 20, 0.6)',     // Red
+            'rgba(255, 255, 255, 0.4)',  // White
+            'rgba(229, 9, 20, 0.4)'      // Red
+        ];
+
+        // Create particles
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1; // Smaller for mobile
+                this.speedX = Math.random() * 1.5 - 0.75; // Slower for mobile
+                this.speedY = Math.random() * 1.5 - 0.75;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Bounce off walls
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                
+                // Fade in and out
+                this.opacity += Math.random() * 0.02 - 0.01;
+                this.opacity = Math.max(0.2, Math.min(0.8, this.opacity));
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('0.8', this.opacity);
+                ctx.fill();
+                
+                // Add glow effect for some particles
+                if (Math.random() > 0.7) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color.replace('0.8', this.opacity * 0.3);
+                    ctx.fill();
+                }
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Connection lines between particles
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 120) { // Reduced distance for mobile
+                        // Use white for connections between white particles, red for others
+                        const isWhite = particles[i].color.includes('255, 255, 255') && 
+                                       particles[j].color.includes('255, 255, 255');
+                        const connectionColor = isWhite ? '255, 255, 255' : '229, 9, 20';
+                        
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(${connectionColor}, ${0.2 * (1 - distance/120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            drawConnections();
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Handle resize
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Start particle animation
+        animateParticles();
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll animations
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.section-title, .service-card, .cta-content, .footer-content');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+
+        // Initial check on load
+        window.addEventListener('load', animateOnScroll);
+        // Check on scroll
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Service card toggle functionality with grouped expansion
+        document.querySelectorAll('.service-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const serviceCard = this.closest('.service-card');
+                const serviceId = parseInt(serviceCard.getAttribute('data-service-id'));
+                
+                // Determine which services to expand based on the clicked service
+                let servicesToExpand = [];
+                
+                // Define groups of related services
+                if (serviceId <= 3) {
+                    // Web Development, Social Media Management, Social Media Advertising
+                    servicesToExpand = [1, 2, 3];
+                } else if (serviceId >= 4 && serviceId <= 6) {
+                    // Google Ads, SEO, Photography
+                    servicesToExpand = [4, 5, 6];
+                } else {
+                    // Videography, Graphic Design, Branding & Logo Creation
+                    servicesToExpand = [7, 8, 9];
+                }
+                
+                // Toggle all service cards in the group
+                document.querySelectorAll('.service-card').forEach(card => {
+                    const cardId = parseInt(card.getAttribute('data-service-id'));
+                    const serviceContent = card.querySelector('.service-content');
+                    const toggleIcon = card.querySelector('.service-toggle');
+                    
+                    if (servicesToExpand.includes(cardId)) {
+                        // Toggle this card
+                        serviceContent.classList.toggle('expanded');
+                        toggleIcon.classList.toggle('rotated');
+                    } else {
+                        // Close cards not in the group
+                        serviceContent.classList.remove('expanded');
+                        toggleIcon.classList.remove('rotated');
+                    }
+                });
+            });
+        });
+
+        // Back to top functionality
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (window.innerWidth <= 768) {
+                        navLinks.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

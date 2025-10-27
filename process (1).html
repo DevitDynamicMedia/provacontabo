@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Process - Dynamic Media</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-black: #000000;
+            --primary-white: #FFFFFF;
+            --primary-red: #E50914;
+            --secondary-red: #FF0000;
+            --gray-dark: #1A1A1A;
+            --gray-medium: #333333;
+            --gray-light: #666666;
+            --font-main: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Particle Canvas Background */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--primary-black);
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(229, 9, 20, 0.05), rgba(0, 0, 0, 0.8));
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Process Section */
+        .process-section {
+            padding: 60px 5%;
+            background: var(--primary-black);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-red);
+        }
+
+        /* Process Timeline - Horizontal for Mobile */
+        .process-timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 3rem auto;
+        }
+
+        .process-steps-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 1rem 0;
+            gap: 1.5rem;
+        }
+
+        .process-steps-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .process-step {
+            flex: 0 0 300px;
+            scroll-snap-align: start;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .process-step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(229, 9, 20, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .process-step:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-red);
+            box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
+        }
+
+        .process-step:hover::before {
+            left: 100%;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+            margin-right: 1rem;
+            transition: all 0.4s ease;
+        }
+
+        .process-step:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(229, 9, 20, 0.6);
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            color: var(--primary-white);
+            flex: 1;
+        }
+
+        .step-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-red);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .step-toggle.rotated {
+            transform: rotate(180deg);
+        }
+
+        .step-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .step-content.expanded {
+            max-height: 1000px;
+        }
+
+        .step-description {
+            color: var(--gray-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .step-features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .step-features li {
+            padding: 0.5rem 0;
+            color: var(--gray-light);
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .step-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .step-features li:hover {
+            color: var(--primary-white);
+        }
+
+        .step-features li:hover::before {
+            transform: scale(1.2);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 60px 5%;
+            background: var(--gray-dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-red);
+            box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--primary-white);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 60px 5%;
+            text-align: center;
+            background: var(--primary-black);
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .cta-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-white);
+        }
+
+        .cta-description {
+            font-size: 1rem;
+            color: var(--gray-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: var(--primary-red);
+            color: var(--primary-white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        }
+
+        .cta-button:hover {
+            background: var(--secondary-red);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(229, 9, 20, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--gray-dark);
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .footer-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--primary-red);
+        }
+
+        .copyright {
+            color: var(--gray-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-red);
+            color: var(--primary-white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary-red);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Styles */
+        @media (min-width: 1024px) {
+            .process-steps-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                overflow-x: visible;
+                gap: 2rem;
+            }
+            
+            .process-step {
+                flex: 1;
+                height: auto;
+            }
+            
+            .step-content {
+                max-height: 1000px;
+            }
+            
+            .step-toggle {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                padding: 1rem 0;
+                text-align: center;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 0.8rem 0;
+                font-size: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 50vh;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .cta-title {
+                font-size: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-step {
+                flex: 0 0 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Header & Navigation -->
+    <header id="header">
+        <a href="index.html" class="logo">Dynamic<span>Media</span></a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="process.html">Process</a>
+            <a href="index.html#contact">Contact</a>
+        </nav>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Our Proven Process</h1>
+        <p>Discover how we transform businesses through our carefully crafted 6-step success process</p>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section" id="process">
+        <h2 class="section-title">Our 6-Step Success Process</h2>
+        
+        <div class="process-timeline">
+            <div class="process-steps-container">
+                <!-- Step 1 -->
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <h3 class="step-title">Discovery & Strategy</h3>
+                        <button class="step-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">
+                            We begin with an in-depth analysis of your business, target audience, and competitive landscape to craft a tailored digital strategy.
+                        </p>
+                        <ul class="step-features">
+                            <li>Comprehensive business analysis</li>
+                            <li>Target audience identification</li>
+                            <li>Competitive market research</li>
+                            <li>Goal setting and KPI establishment</li>
+                            <li>Custom strategy development</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <h3 class="step-title">Brand Development</h3>
+                        <button class="step-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">
+                            We create a powerful brand identity that resonates with your audience and differentiates you from competitors.
+                        </p>
+                        <ul class="step-features">
+                            <li>Logo and visual identity design</li>
+                            <li>Brand messaging and voice development</li>
+                            <li>Color palette and typography selection</li>
+                            <li>Brand guidelines creation</li>
+                            <li>Marketing collateral design</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <h3 class="step-title">Content Creation</h3>
+                        <button class="step-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">
+                            We produce high-quality, engaging content that tells your story and connects with your audience.
+                        </p>
+                        <ul class="step-features">
+                            <li>Professional photography sessions</li>
+                            <li>Video production and editing</li>
+                            <li>Content writing and copywriting</li>
+                            <li>Social media content creation</li>
+                            <li>Website content development</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <h3 class="step-title">Platform Implementation</h3>
+                        <button class="step-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">
+                            We build and optimize your digital presence across all relevant platforms for engagement and conversion.
+                        </p>
+                        <ul class="step-features">
+                            <li>Website design and development</li>
+                            <li>Social media channel setup</li>
+                            <li>SEO optimization implementation</li>
+                            <li>Email marketing system setup</li>
+                            <li>Analytics and tracking installation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <h3 class="step-title">Campaign Launch</h3>
+                        <button class="step-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">
+                            We execute strategic marketing campaigns across multiple channels to drive visibility and conversions.
+                        </p>
+                        <ul class="step-features">
+                            <li>Social media advertising campaigns</li>
+                            <li>Google Ads and PPC management</li>
+                            <li>Content distribution strategy</li>
+                            <li>Community engagement management</li>
+                            <li>Performance monitoring and reporting</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="process-step">
+                    <div class="step-header">
+                        <div class="step-number">6</div>
+                        <h3 class="step-title">Optimization & Growth</h3>
+                        <button class="step-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="step-content">
+                        <p class="step-description">
+                            We continuously analyze performance data and optimize strategies for maximum ROI and growth.
+                        </p>
+                        <ul class="step-features">
+                            <li>Performance analytics and reporting</li>
+                            <li>Strategy refinement based on data</li>
+                            <li>A/B testing and optimization</li>
+                            <li>Competitive analysis updates</li>
+                            <li>Long-term growth planning</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <h2 class="section-title">Our Process in Numbers</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number" data-count="98">0</span>
+                <span class="stat-label">Client Satisfaction Rate</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" data-count="200">0</span>
+                <span class="stat-label">Happy Clients</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" data-count="500">0</span>
+                <span class="stat-label">Projects Completed</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" data-count="8">0</span>
+                <span class="stat-label">Years Experience</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Transform Your Business?</h2>
+            <p class="cta-description">
+                Let's discuss how our proven process can drive results for your business. 
+                Schedule a free consultation today and take the first step toward digital excellence.
+            </p>
+            <a href="index.html#contact" class="cta-button">Start Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Dynamic<span>Media</span></div>
+            <p class="copyright">© 2025 Dynamic Media. All Rights Reserved.</p>
+            <a href="#" class="back-to-top">Back to Top</a>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Background System
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Particle system
+        const particles = [];
+        const particleCount = 60; // Reduced for mobile performance
+        const colors = [
+            'rgba(229, 9, 20, 0.8)',    // Primary red
+            'rgba(229, 9, 20, 0.6)',    // Lighter red
+            'rgba(255, 0, 0, 0.4)',     // Bright red
+            'rgba(139, 0, 0, 0.3)'      // Dark red
+        ];
+
+        // Create particles
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1; // Smaller for mobile
+                this.speedX = Math.random() * 1.5 - 0.75; // Slower for mobile
+                this.speedY = Math.random() * 1.5 - 0.75;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Bounce off walls
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                
+                // Fade in and out
+                this.opacity += Math.random() * 0.02 - 0.01;
+                this.opacity = Math.max(0.2, Math.min(0.8, this.opacity));
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('0.8', this.opacity);
+                ctx.fill();
+                
+                // Add glow effect for some particles
+                if (Math.random() > 0.7) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color.replace('0.8', this.opacity * 0.3);
+                    ctx.fill();
+                }
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Connection lines between particles
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 120) { // Reduced distance for mobile
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(229, 9, 20, ${0.2 * (1 - distance/120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            drawConnections();
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Handle resize
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Start particle animation
+        animateParticles();
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll animations
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.section-title, .process-step, .stat-card, .cta-content, .footer-content');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+
+        // Initial check on load
+        window.addEventListener('load', animateOnScroll);
+        // Check on scroll
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Animated Counter for Stats
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        const animateValue = (obj, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        // Intersection Observer for stats animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target;
+                    const target = parseInt(statNumber.getAttribute('data-count'));
+                    animateValue(statNumber, 0, target, 2000);
+                    statsObserver.unobserve(statNumber);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(stat => {
+            statsObserver.observe(stat);
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Process step toggle functionality for mobile
+        document.querySelectorAll('.step-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const stepContent = this.closest('.process-step').querySelector('.step-content');
+                stepContent.classList.toggle('expanded');
+                this.classList.toggle('rotated');
+            });
+        });
+
+        // Back to top functionality
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (window.innerWidth <= 768) {
+                        navLinks.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

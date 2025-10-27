@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Portfolio - Dynamic Media</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-black: #000000;
+            --primary-white: #FFFFFF;
+            --primary-red: #E50914;
+            --secondary-red: #FF0000;
+            --gray-dark: #1A1A1A;
+            --gray-medium: #333333;
+            --gray-light: #666666;
+            --font-main: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.1), rgba(0, 0, 0, 0.9));
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        /* Portfolio Section */
+        .portfolio-section {
+            padding: 60px 5%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Category Grid - Mobile First */
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .category-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .category-grid:has(.category-card:nth-child(7):last-child) {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .category-grid:has(.category-card:nth-child(7):last-child) .category-card:nth-child(7) {
+                grid-column: 2;
+            }
+        }
+
+        .category-card {
+            background: var(--gray-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-red);
+            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
+        }
+
+        .category-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(135deg, 
+                #000000 0%, 
+                #1a0000 25%, 
+                #330000 50%, 
+                #4d0000 75%, 
+                #660000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-letter {
+            font-size: 5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: absolute;
+            z-index: 2;
+            background: linear-gradient(45deg, #ffffff 30%, #E50914 70%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        .category-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .category-image.loaded {
+            opacity: 1;
+        }
+
+        .category-card:hover .category-letter {
+            opacity: 0;
+        }
+
+        .category-card:hover .category-image {
+            transform: scale(1.05);
+        }
+
+        .category-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Image Gallery Modal */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 2000;
+            padding: 1rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--primary-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .gallery-container {
+            height: calc(100vh - 120px);
+            position: relative;
+        }
+
+        .gallery-slide {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--primary-white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-nav:hover {
+            background: var(--primary-red);
+        }
+
+        .prev-btn {
+            left: 1rem;
+        }
+
+        .next-btn {
+            right: 1rem;
+        }
+
+        .gallery-indicators {
+            position: absolute;
+            bottom: 1rem;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: var(--primary-red);
+            transform: scale(1.2);
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-light);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--gray-dark);
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--primary-red);
+        }
+
+        .copyright {
+            color: var(--gray-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-red);
+            color: var(--primary-white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary-red);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                padding: 1rem 0;
+                text-align: center;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 0.8rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 50vh;
+                margin-top: 70px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .category-image-container {
+                height: 150px;
+            }
+            
+            .category-letter {
+                font-size: 4rem;
+            }
+            
+            .gallery-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .category-grid {
+                gap: 0.8rem;
+            }
+            
+            .category-info {
+                padding: 1rem;
+            }
+            
+            .category-title {
+                font-size: 1.1rem;
+            }
+            
+            .category-letter {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">Dynamic<span>Media</span></a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="process.html">Process</a>
+            <a href="index.html#contact">Contact</a>
+        </nav>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Our Creative Portfolio</h1>
+        <p>Tap any category to explore our work</p>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section">
+        <h2 class="section-title">Our Work</h2>
+        
+        <!-- Category Grid -->
+        <div class="category-grid" id="categoryGrid">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading portfolio...
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal" id="galleryModal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modalTitle">Gallery</h3>
+            <button class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="gallery-container">
+            <div class="gallery-slide">
+                <img class="gallery-image" id="currentImage" src="" alt="">
+            </div>
+            <button class="gallery-nav prev-btn" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="gallery-nav next-btn" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="gallery-indicators" id="indicators">
+                <!-- Indicators will be added dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Dynamic<span>Media</span></div>
+            <p class="copyright">© 2025 Dynamic Media. All Rights Reserved.</p>
+            <a href="#" class="back-to-top">Back to Top</a>
+        </div>
+    </footer>
+
+    <script>
+        // Portfolio Configuration
+        const portfolioConfig = {
+            categories: [
+                { 
+                    id: 'branding', 
+                    title: 'Branding', 
+                    images: [
+                        'branding/1.webp',
+                        'branding/2.webp',
+                        'branding/3.webp',
+                        'branding/4.webp',
+                        'branding/5.webp',
+                        'branding/dynamic post (1).webp',
+                        'branding/dynamic post (2).webp',
+                        'branding/dynamicpost(3).webp'
+                    ]
+                },
+                { 
+                    id: 'socialmedia', 
+                    title: 'Social Media', 
+                    images: [
+                        'socialmedia/1.webp',
+                        'socialmedia/dentour post (1080 x 1080 px) (39).webp',
+                        'socialmedia/dentour. post (4).webp',
+                        'socialmedia/destiny hotel 1.webp',
+                        'socialmedia/destiny hotel 3.webp',
+                        'socialmedia/dyn x3.webp',
+                        'socialmedia/dynamic post 3 hilton.webp',
+                        'socialmedia/dynamic post ark post 1 slide2.webp',
+                        'socialmedia/dynamic post ark post 1 slide3.webp',
+                        'socialmedia/dynamic post ark post 1 slide4.webp',
+                        'socialmedia/dynamic post ark post 1.webp',
+                        'socialmedia/dynamic post ark post 2.webp',
+                        'socialmedia/dynamic post chef 1.webp',
+                        'socialmedia/dynamic post ykm3.webp',
+                        'socialmedia/dynamic posti 3.webp',
+                        'socialmedia/dynamic swiss post 3.webp',
+                        'socialmedia/elinikon plani mujor2..webp',
+                        'socialmedia/hilton 3.webp',
+                        'socialmedia/Instagram elite.webp',
+                        'socialmedia/photo dynamic post.webp'
+                    ]
+                },
+                { 
+                    id: 'clinics', 
+                    title: 'Medical Clinics', 
+                    images: [
+                        'clinics/184A5569.webp',
+                        'clinics/184A5584.webp',
+                        'clinics/184A7374.webp',
+                        'clinics/184A8776.webp',
+                        'clinics/184A8781.webp',
+                        'clinics/184A9472.webp',
+                        'clinics/184A9983.webp',
+                        'clinics/184A9990.webp',
+                        'clinics/184A9991.webp',
+                        'clinics/184A9994.webp',
+                        'clinics/20241206-DSC_4964.webp',
+                        'clinics/_84A0924.webp',
+                        'clinics/IMG_0583.webp',
+                        'clinics/IMG_0658.webp',
+                        'clinics/IMG_1097_1.webp',
+                        'clinics/IMG_4202.webp',
+                        'clinics/IMG_4455.webp',
+                        'clinics/IMG_4547_1.webp',
+                        'clinics/IMG_4559_1.webp',
+                        'clinics/IMG_4632.webp',
+                        'clinics/IMG_4680.webp',
+                        'clinics/IMG_7010.webp',
+                        'clinics/IMG_7011.webp',
+                        'clinics/IMG_7061.webp',
+                        'clinics/IMG_7436.webp',
+                        'clinics/IMG_7454.webp',
+                        'clinics/IMG_9641.webp',
+                        'clinics/IMG_9714_1.webp',
+                        'clinics/IMG_9839.webp',
+                        'clinics/IMG_9900.webp',
+                        'clinics/LAE01648.webp',
+                        'clinics/LAE03867.webp',
+                        'clinics/LAE03875.webp'
+                    ]
+                },
+                { 
+                    id: 'restaurants', 
+                    title: 'Restaurants', 
+                    images: [
+                        'restaurants/022A1189.webp',
+                        'restaurants/022A1190.webp',
+                        'restaurants/022A1226.webp',
+                        'restaurants/022A1227.webp',
+                        'restaurants/022A3621.webp',
+                        'restaurants/022A3696.webp',
+                        'restaurants/022A3707.webp',
+                        'restaurants/022A7766.webp',
+                        'restaurants/022A7768.webp',
+                        'restaurants/022A7772.webp',
+                        'restaurants/1.webp',
+                        'restaurants/184A2815.webp',
+                        'restaurants/2.webp',
+                        'restaurants/20230418-IMG_3802.webp',
+                        'restaurants/20240618-C0123T01.webp',
+                        'restaurants/20240909-LAE00063.webp',
+                        'restaurants/3.webp',
+                        'restaurants/4.webp',
+                        'restaurants/5.webp',
+                        'restaurants/ALTEO-46.webp',
+                        'restaurants/ALTEO-49.webp',
+                        'restaurants/ALTEO-70.webp',
+                        'restaurants/AMH-10.webp',
+                        'restaurants/AMH-11.webp',
+                        'restaurants/dynamic vera 3.2.webp',
+                        'restaurants/dynamic vera 3.3.webp',
+                        'restaurants/dynamic vera 3.4.webp',
+                        'restaurants/dynamic vera 3.5.webp',
+                        'restaurants/IMG_0224.webp',
+                        'restaurants/IMG_0225.webp',
+                        'restaurants/IMG_0227.webp',
+                        'restaurants/IMG_0565.webp',
+                        'restaurants/IMG_0723.webp',
+                        'restaurants/IMG_3789.webp',
+                        'restaurants/IMG_3791.webp',
+                        'restaurants/IMG_3798.webp',
+                        'restaurants/IMG_5035.webp',
+                        'restaurants/IMG_5444.webp',
+                        'restaurants/IMG_5447.webp',
+                        'restaurants/IMG_5448.webp',
+                        'restaurants/IMG_7145.webp',
+                        'restaurants/IMG_7148.webp',
+                        'restaurants/IMG_7154.webp',
+                        'restaurants/IMG_7444.webp',
+                        'restaurants/IMG_8780.webp',
+                        'restaurants/IMG_8781.webp',
+                        'restaurants/IMG_8786.webp',
+                        'restaurants/IMG_8789.webp',
+                        'restaurants/IMG_9209.webp',
+                        'restaurants/IMG_9215.webp',
+                        'restaurants/IMG_9639.webp',
+                        'restaurants/IMG_9712.webp',
+                        'restaurants/LAE00017.webp',
+                        'restaurants/LAE00024.webp',
+                        'restaurants/LAE09531.webp',
+                        'restaurants/LAE09562.webp',
+                        'restaurants/LAE09563.webp'
+                    ]
+                },
+                { 
+                    id: 'events', 
+                    title: 'Events', 
+                    images: [
+                        'events/184A0468.webp',
+                        'events/184A0471.webp',
+                        'events/184A0472.webp',
+                        'events/184A0474.webp',
+                        'events/184A0485.webp',
+                        'events/184A0705.webp',
+                        'events/184A2769.webp',
+                        'events/184A5707.webp',
+                        'events/184A5718.webp',
+                        'events/184A5719.webp',
+                        'events/184A5730.webp',
+                        'events/IMG_0239.webp',
+                        'events/IMG_0244.webp',
+                        'events/IMG_0248.webp',
+                        'events/IMG_0249.webp',
+                        'events/IMG_0262.webp',
+                        'events/IMG_0842_1.webp',
+                        'events/IMG_0885.webp',
+                        'events/IMG_1331.webp',
+                        'events/IMG_1348.webp',
+                        'events/IMG_1593.webp',
+                        'events/IMG_2717.webp',
+                        'events/IMG_2763.webp',
+                        'events/IMG_2768.webp',
+                        'events/IMG_2769.webp',
+                        'events/IMG_2795.webp',
+                        'events/IMG_2816.webp',
+                        'events/IMG_2817.webp',
+                        'events/IMG_2832.webp',
+                        'events/IMG_2836.webp',
+                        'events/IMG_4087.webp',
+                        'events/IMG_9439.webp'
+                    ]
+                },
+                { 
+                    id: 'renovations', 
+                    title: 'Renovations', 
+                    images: [
+                        'renovations/184A5368.webp',
+                        'renovations/184A5369.webp',
+                        'renovations/184A5370.webp',
+                        'renovations/184A6119.webp',
+                        'renovations/184A6138.webp',
+                        'renovations/184A6152.webp',
+                        'renovations/184A6563.webp',
+                        'renovations/184A6605.webp',
+                        'renovations/184A6619.webp',
+                        'renovations/20241213-DJI_20241213113803_0388_D.webp',
+                        'renovations/DJI_20241007104055_0183_D.webp',
+                        'renovations/DJI_20241007111239_0224_D.webp',
+                        'renovations/DJI_20241007111249_0225_D.webp',
+                        'renovations/DJI_20241007111451_0233_D.webp',
+                        'renovations/IMG_0187.webp',
+                        'renovations/IMG_0189.webp',
+                        'renovations/IMG_0190.webp',
+                        'renovations/IMG_0260_1.webp',
+                        'renovations/IMG_0263.webp',
+                        'renovations/IMG_0511.webp',
+                        'renovations/IMG_0653.webp',
+                        'renovations/IMG_0687.webp',
+                        'renovations/IMG_0688.webp',
+                        'renovations/IMG_0843.webp',
+                        'renovations/IMG_0858.webp',
+                        'renovations/IMG_3081_1.webp',
+                        'renovations/IMG_4923.webp',
+                        'renovations/IMG_4968.webp',
+                        'renovations/IMG_5065.webp',
+                        'renovations/IMG_5078.webp',
+                        'renovations/IMG_6433.webp',
+                        'renovations/IMG_6434.webp',
+                        'renovations/IMG_6435.webp',
+                        'renovations/IMG_7291.webp',
+                        'renovations/IMG_7310.webp',
+                        'renovations/IMG_7315.webp',
+                        'renovations/IMG_7322.webp',
+                        'renovations/IMG_7324.webp',
+                        'renovations/IMG_7372.webp',
+                        'renovations/IMG_7373.webp',
+                        'renovations/IMG_8585.webp',
+                        'renovations/IMG_8591.webp',
+                        'renovations/IMG_8598.webp',
+                        'renovations/IMG_8815.webp',
+                        'renovations/IMG_8872.webp',
+                        'renovations/IMG_8874.webp',
+                        'renovations/IMG_8893.webp',
+                        'renovations/IMG_8895.webp',
+                        'renovations/IMG_8897.webp',
+                        'renovations/IMG_8898.webp',
+                        'renovations/IMG_8900.webp'
+                    ]
+                },
+                { 
+                    id: 'hotels', 
+                    title: 'Hotels', 
+                    images: [
+                        'hotels/022A2169.webp',
+                        'hotels/022A2286.webp',
+                        'hotels/022A2288.webp',
+                        'hotels/022A2289.webp',
+                        'hotels/022A2313.webp',
+                        'hotels/022A2315.webp',
+                        'hotels/022A2608.webp',
+                        'hotels/184A1107.webp',
+                        'hotels/20230412_143012.webp',
+                        'hotels/20240517-DJI_20240517212139_0095_D.webp',
+                        'hotels/20240518-DJI_20240518090019_0017_D.webp',
+                        'hotels/20241011-IMG_3470.webp',
+                        'hotels/20241011-IMG_3507.webp',
+                        'hotels/AMH-10.webp',
+                        'hotels/DJI_0325.webp',
+                        'hotels/DJI_0348.webp',
+                        'hotels/DJI_0383.webp',
+                        'hotels/DJI_20241005122204_0154_D.webp',
+                        'hotels/DJI_20250222100851_0018_D.webp',
+                        'hotels/IMG_0523.webp',
+                        'hotels/IMG_1140.webp',
+                        'hotels/IMG_1174.webp',
+                        'hotels/IMG_1514.webp',
+                        'hotels/IMG_1544.webp',
+                        'hotels/IMG_1550.webp',
+                        'hotels/IMG_1640.webp',
+                        'hotels/IMG_2754.webp',
+                        'hotels/IMG_2778.webp',
+                        'hotels/IMG_2782.webp',
+                        'hotels/IMG_4339.webp',
+                        'hotels/IMG_7490.webp',
+                        'hotels/IMG_7650.webp',
+                        'hotels/IMG_7664.webp',
+                        'hotels/IMG_7733.webp',
+                        'hotels/IMG_9426.webp',
+                        'hotels/IMG_9852.webp',
+                        'hotels/LAE06269.webp',
+                        'hotels/LAE09345.webp',
+                        'hotels/LAE09348.webp',
+                        'hotels/PAMJE HOTELI.webp',
+                        'hotels/Rm 804 Standard King with Balcony 2.webp',
+                        'hotels/Rm 804 Standard King with Balcony.webp'
+                    ]
+                }
+            ]
+        };
+
+        // State management
+        let currentCategory = null;
+        let currentImageIndex = 0;
+        let categoryImages = [];
+        let scrollTimeout;
+        let currentlyHoveredCard = null;
+        let hoverTimeout = null;
+
+        // Intersection Observer for lazy loading
+        let imageObserver;
+
+        // Function to load images for all categories
+        function loadAllCategoryImages() {
+            const loadingElement = document.getElementById('categoryGrid').querySelector('.loading');
+            
+            if (loadingElement) {
+                loadingElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading portfolio...';
+            }
+
+            setTimeout(() => {
+                createCategoryGrid();
+                initIntersectionObserver();
+            }, 50);
+        }
+
+        // Function to create category grid
+        function createCategoryGrid() {
+            const categoryGrid = document.getElementById('categoryGrid');
+            
+            const categoriesHTML = portfolioConfig.categories.map(category => {
+                const firstLetter = category.title.charAt(0).toUpperCase();
+                
+                return `
+                    <div class="category-card" data-category="${category.id}">
+                        <div class="category-image-container">
+                            <div class="category-letter">${firstLetter}</div>
+                            <img 
+                                data-src="${category.images[0]}"
+                                alt="${category.title}"
+                                class="category-image"
+                            >
+                        </div>
+                        <div class="category-info">
+                            <h3 class="category-title">${category.title}</h3>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            categoryGrid.innerHTML = categoriesHTML;
+            
+            // Add click event listeners
+            categoryGrid.addEventListener('click', function(e) {
+                const categoryCard = e.target.closest('.category-card');
+                if (categoryCard) {
+                    const categoryId = categoryCard.getAttribute('data-category');
+                    openGallery(categoryId);
+                }
+            });
+
+            // Add hover event listeners
+            const cards = categoryGrid.querySelectorAll('.category-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', handleCardHover);
+                card.addEventListener('mouseleave', handleCardLeave);
+            });
+        }
+
+        // Initialize Intersection Observer
+        function initIntersectionObserver() {
+            imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const categoryCard = entry.target;
+                        const img = categoryCard.querySelector('.category-image');
+                        const imageSrc = img.getAttribute('data-src');
+                        
+                        // Load the image but keep it hidden
+                        if (imageSrc && !img.src) {
+                            const realImage = new Image();
+                            realImage.onload = function() {
+                                img.src = imageSrc;
+                                // Don't add 'loaded' class yet - wait for hover
+                            };
+                            realImage.src = imageSrc;
+                        }
+                        
+                        // Unobserve after loading
+                        imageObserver.unobserve(categoryCard);
+                    }
+                });
+            }, {
+                rootMargin: '100px', // Load when 100px away from viewport
+                threshold: 0.1
+            });
+
+            // Observe all category cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                imageObserver.observe(card);
+            });
+        }
+
+        // Handle card hover
+        function handleCardHover(e) {
+            const categoryCard = e.currentTarget;
+            
+            if (hoverTimeout) {
+                clearTimeout(hoverTimeout);
+            }
+            
+            if (currentlyHoveredCard && currentlyHoveredCard !== categoryCard) {
+                const prevImg = currentlyHoveredCard.querySelector('.category-image');
+                prevImg.classList.remove('loaded');
+            }
+            
+            currentlyHoveredCard = categoryCard;
+            const img = categoryCard.querySelector('.category-image');
+            
+            // Only show image if it's already loaded
+            if (img.src) {
+                img.classList.add('loaded');
+            }
+        }
+
+        // Handle card leave
+        function handleCardLeave(e) {
+            const categoryCard = e.currentTarget;
+            
+            if (hoverTimeout) {
+                clearTimeout(hoverTimeout);
+            }
+            
+            hoverTimeout = setTimeout(() => {
+                const img = categoryCard.querySelector('.category-image');
+                img.classList.remove('loaded');
+                
+                if (currentlyHoveredCard === categoryCard) {
+                    currentlyHoveredCard = null;
+                }
+            }, 100);
+        }
+
+        // Function to open gallery for a category
+        function openGallery(categoryId) {
+            const category = portfolioConfig.categories.find(cat => cat.id === categoryId);
+            if (!category) return;
+
+            currentCategory = category;
+            
+            if (category.images && category.images.length > 0) {
+                categoryImages = category.images;
+                currentImageIndex = 0;
+                showGallery();
+            } else {
+                alert('No images found in the ' + currentCategory.title + ' category.');
+            }
+        }
+
+        // Function to show gallery
+        function showGallery() {
+            document.getElementById('modalTitle').textContent = currentCategory.title;
+            document.getElementById('galleryModal').style.display = 'block';
+            loadCurrentImage();
+            createIndicators();
+        }
+
+        // Function to load current image
+        function loadCurrentImage() {
+            if (!currentCategory || categoryImages.length === 0) return;
+            
+            const imagePath = categoryImages[currentImageIndex];
+            const imageElement = document.getElementById('currentImage');
+            
+            const img = new Image();
+            img.onload = function() {
+                imageElement.src = imagePath;
+                imageElement.alt = `${currentCategory.title} ${currentImageIndex + 1}`;
+            };
+            img.src = imagePath;
+            
+            updateIndicators();
+        }
+
+        // Function to create indicators
+        function createIndicators() {
+            const indicatorsContainer = document.getElementById('indicators');
+            indicatorsContainer.innerHTML = `<div style="color: white;">${currentImageIndex + 1} / ${categoryImages.length}</div>`;
+        }
+
+        // Function to update indicators
+        function updateIndicators() {
+            const indicators = document.querySelectorAll('.indicator');
+            indicators.forEach((indicator, index) => {
+                const indicatorIndex = parseInt(indicator.getAttribute('data-index'));
+                indicator.classList.toggle('active', indicatorIndex === currentImageIndex);
+            });
+        }
+
+        // Function to navigate to next image
+        function nextImage() {
+            if (categoryImages.length === 0) return;
+            currentImageIndex = (currentImageIndex + 1) % categoryImages.length;
+            loadCurrentImage();
+        }
+
+        // Function to navigate to previous image
+        function prevImage() {
+            if (categoryImages.length === 0) return;
+            currentImageIndex = (currentImageIndex - 1 + categoryImages.length) % categoryImages.length;
+            loadCurrentImage();
+        }
+
+        // Close gallery modal
+        function closeGallery() {
+            document.getElementById('galleryModal').style.display = 'none';
+            currentCategory = null;
+            categoryImages = [];
+            currentImageIndex = 0;
+        }
+
+        // Initialize the portfolio
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllCategoryImages();
+            initEventListeners();
+        });
+
+        function initEventListeners() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            navLinks.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    navLinks.classList.remove('active');
+                }
+            });
+
+            // Gallery navigation
+            document.getElementById('nextBtn').addEventListener('click', nextImage);
+            document.getElementById('prevBtn').addEventListener('click', prevImage);
+            document.getElementById('closeModal').addEventListener('click', closeGallery);
+
+            // Keyboard navigation
+            let keyThrottle = false;
+            document.addEventListener('keydown', function(e) {
+                if (keyThrottle) return;
+                
+                if (document.getElementById('galleryModal').style.display === 'block') {
+                    if (e.key === 'ArrowRight') nextImage();
+                    if (e.key === 'ArrowLeft') prevImage();
+                    if (e.key === 'Escape') closeGallery();
+                    
+                    keyThrottle = true;
+                    setTimeout(() => { keyThrottle = false; }, 200);
+                }
+            });
+
+            // Back to top
+            document.querySelector('.back-to-top').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Close modal when clicking outside image
+            document.getElementById('galleryModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeGallery();
+                }
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-links') && !e.target.closest('.mobile-menu-btn')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        }
+
+        // Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let swipeThrottle = false;
+
+        document.getElementById('galleryModal').addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('galleryModal').addEventListener('touchend', function(e) {
+            if (swipeThrottle) return;
+            
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            
+            swipeThrottle = true;
+            setTimeout(() => { swipeThrottle = false; }, 300);
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextImage();
+                } else {
+                    prevImage();
+                }
+            }
+        }
+
+        // Optimized scroll handling
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(function() {
+                // Any scroll-related code here
+            }, 100);
+        });
+    </script>
+</body>
+</html>
