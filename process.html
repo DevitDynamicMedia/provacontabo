@@ -316,14 +316,29 @@
             transform: rotate(180deg);
         }
 
-        .step-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
+        /* Desktop: Always show content */
+        @media (min-width: 1024px) {
+            .step-toggle {
+                display: none;
+            }
+            
+            .step-content {
+                max-height: 1000px;
+                overflow: visible;
+            }
         }
 
-        .step-content.expanded {
-            max-height: 1000px;
+        /* Mobile: Collapsible content */
+        @media (max-width: 1023px) {
+            .step-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease;
+            }
+            
+            .step-content.expanded {
+                max-height: 1000px;
+            }
         }
 
         .step-description {
@@ -1004,28 +1019,48 @@
             navLinks.classList.toggle('active');
         });
 
-        // Process step toggle functionality
-        document.querySelectorAll('.step-toggle').forEach(toggle => {
-            toggle.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent event bubbling
-                const stepContent = this.closest('.process-step').querySelector('.step-content');
-                const isExpanded = stepContent.classList.contains('expanded');
-                
-                // Close all other steps on mobile
-                if (window.innerWidth < 1024) {
-                    document.querySelectorAll('.step-content.expanded').forEach(content => {
-                        if (content !== stepContent) {
-                            content.classList.remove('expanded');
-                            content.previousElementSibling.querySelector('.step-toggle').classList.remove('rotated');
-                        }
+        // Process step toggle functionality - only for mobile
+        function setupProcessStepToggles() {
+            const stepToggles = document.querySelectorAll('.step-toggle');
+            
+            // Only set up toggle functionality on mobile devices
+            if (window.innerWidth < 1024) {
+                stepToggles.forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.stopPropagation(); // Prevent event bubbling
+                        const stepContent = this.closest('.process-step').querySelector('.step-content');
+                        const isExpanded = stepContent.classList.contains('expanded');
+                        
+                        // Close all other steps on mobile
+                        document.querySelectorAll('.step-content.expanded').forEach(content => {
+                            if (content !== stepContent) {
+                                content.classList.remove('expanded');
+                                content.previousElementSibling.querySelector('.step-toggle').classList.remove('rotated');
+                            }
+                        });
+                        
+                        // Toggle current step
+                        stepContent.classList.toggle('expanded');
+                        this.classList.toggle('rotated');
                     });
-                }
-                
-                // Toggle current step
-                stepContent.classList.toggle('expanded');
-                this.classList.toggle('rotated');
-            });
-        });
+                });
+            } else {
+                // On desktop, remove toggle functionality and ensure all content is visible
+                stepToggles.forEach(toggle => {
+                    toggle.style.display = 'none';
+                });
+                document.querySelectorAll('.step-content').forEach(content => {
+                    content.style.maxHeight = 'none';
+                    content.style.overflow = 'visible';
+                });
+            }
+        }
+
+        // Initialize process step toggles based on screen size
+        setupProcessStepToggles();
+        
+        // Re-initialize when window is resized
+        window.addEventListener('resize', setupProcessStepToggles);
 
         // Close mobile menu when clicking on a link
         document.querySelectorAll('.nav-links a').forEach(link => {
