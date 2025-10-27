@@ -1026,6 +1026,14 @@
             // Only set up toggle functionality on mobile devices
             if (window.innerWidth < 1024) {
                 stepToggles.forEach(toggle => {
+                    // Remove any existing event listeners to prevent duplicates
+                    toggle.replaceWith(toggle.cloneNode(true));
+                });
+                
+                // Re-select the toggles after cloning
+                const newToggles = document.querySelectorAll('.step-toggle');
+                
+                newToggles.forEach(toggle => {
                     toggle.addEventListener('click', function(e) {
                         e.stopPropagation(); // Prevent event bubbling
                         const stepContent = this.closest('.process-step').querySelector('.step-content');
