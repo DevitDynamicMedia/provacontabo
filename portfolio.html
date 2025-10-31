@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dynamic Media | Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Handwritten royal-style script font -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         :root {
             --primary-black: #000000;
-            --primary-white: #FFFFFF;
-            --primary-red: #E50914;
-            --accent-red: #FF4757;
+            --primary-white: #ffffff;
+            --primary-red: #e50914;
+            --accent-red: #ff4757;
             --neon-glow: 0 0 20px rgba(229, 9, 20, 0.7), 0 0 40px rgba(229, 9, 20, 0.5), 0 0 60px rgba(229, 9, 20, 0.3);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -32,370 +30,138 @@
 
         /* Navigation - Hidden initially */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 5%;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.5s ease;
+            opacity: 0; transform: translateY(-20px); transition: all 0.5s ease;
         }
-
-        nav.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary-white);
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: var(--primary-red);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--primary-white);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
-        }
+        nav.visible { opacity: 1; transform: translateY(0); }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary-white); text-decoration: none; }
+        .logo span { color: var(--primary-red); }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: var(--primary-white); text-decoration: none; font-weight: 500; font-size: 0.9rem; opacity: 0.8; transition: opacity 0.3s ease; }
+        .nav-links a:hover { opacity: 1; }
 
         /* Main Container */
-        .portfolio-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .portfolio-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; }
 
-        /* Gallery Icon */
+        /* ============================
+           GALLERY BUTTON (Handwritten Neon, one-time write & drips)
+           ============================ */
         .gallery-icon {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.8));
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: var(--neon-glow);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; flex-direction: column;
+            background: transparent; border: none; box-shadow: none; width: auto; height: auto; padding: 0;
         }
 
-        .gallery-icon:hover {
-            transform: translate(-50%, -50%) scale(1.05);
-            box-shadow: 0 0 30px rgba(229, 9, 20, 0.9), 0 0 50px rgba(229, 9, 20, 0.7), 0 0 70px rgba(229, 9, 20, 0.5);
+        /* SVG sizing */
+        .neon-word {
+            width: min(78vw, 1200px);
+            height: auto;
+            filter: drop-shadow(0 0 12px rgba(229,9,20,0.55));
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
 
-        .gallery-icon i {
-            font-size: 3rem;
-            color: var(--primary-red);
-            margin-bottom: 1rem;
-        }
+        /* Hover: stronger glow + tiny scale (no replay) */
+        .gallery-icon:hover .neon-word { transform: scale(1.04); filter: drop-shadow(0 0 20px rgba(229,9,20,0.9)); }
 
-        .gallery-icon span {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-white);
+        /* Draw the word once */
+        .word-stroke {
+            fill: transparent;
+            stroke: var(--primary-red);
+            stroke-width: 2.2;
+            stroke-linecap: round; stroke-linejoin: round;
+            stroke-dasharray: 2600; /* large to cover whole text outline */
+            stroke-dashoffset: 2600;
+            animation: drawWord 2.2s ease forwards;
+            filter: url(#glow);
         }
-
-        /* Category Cards - Hidden initially */
-        .category-card {
-            position: absolute;
-            width: 140px;
-            height: 140px;
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(30, 30, 30, 0.8));
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        .word-fill {
+            fill: var(--primary-red);
+            filter: url(#glow);
             opacity: 0;
-            z-index: 5;
-            transition: all 0.3s ease;
+            animation: fillWord 0.6s ease forwards;
+            animation-delay: 2s; /* starts near the end of stroke */
         }
 
-        .category-card.visible {
-            opacity: 1;
+        /* Pen light moving across the word */
+        .pen-dot {
+            fill: var(--primary-red);
+            filter: url(#glow);
+            transform-origin: center;
+            animation: penTravel 2.2s ease forwards;
         }
 
-        .category-card:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+        /* Subtle idle pulse AFTER reveal (starts after fill) */
+        .neon-word.revealed { animation: idlePulse 3s ease-in-out infinite; animation-delay: 0.6s; }
+        @keyframes idlePulse { 0%,100%{ filter: drop-shadow(0 0 10px rgba(229,9,20,0.6)); } 50%{ filter: drop-shadow(0 0 16px rgba(229,9,20,0.95)); } }
+
+        @keyframes drawWord { to { stroke-dashoffset: 0; } }
+        @keyframes fillWord { to { opacity: 1; } }
+
+        /* Dripping neon liquid (gooey) */
+        .drip { fill: var(--primary-red); filter: url(#glow); opacity: 0.95; }
+        .drip.d1 { animation: dripFall 3.6s ease-in infinite; animation-delay: 2.4s; }
+        .drip.d2 { animation: dripFall 4.4s ease-in infinite; animation-delay: 3.1s; }
+        .drip.d3 { animation: dripFall 5.2s ease-in infinite; animation-delay: 3.7s; }
+        @keyframes dripFall {
+            0%   { transform: translateY(0) scale(1); opacity: 0; }
+            10%  { opacity: 1; }
+            80%  { transform: translateY(38px) scale(0.95); opacity: 1; }
+            100% { transform: translateY(60px) scale(0.85); opacity: 0; }
         }
 
-        .category-icon {
-            font-size: 2.2rem;
-            color: var(--primary-white);
-            margin-bottom: 0.8rem;
-            transition: color 0.3s ease;
+        /* Category Cards - keep behavior, remove square background */
+        .category-card {
+            position: absolute; width: auto; height: auto; padding: 0; background: transparent; border: none; border-radius: 0; box-shadow: none;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0; z-index: 5; transition: transform 0.3s ease, opacity 0.3s ease;
         }
-
-        .category-card:hover .category-icon {
-            color: var(--primary-red);
-        }
-
-        .category-name {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--primary-white);
-            text-align: center;
-        }
+        .category-card.visible { opacity: 1; }
+        .category-card:hover { transform: scale(1.08); }
+        .category-icon { font-size: 2.2rem; color: var(--primary-white); margin-bottom: 0.6rem; transition: color 0.3s ease; text-shadow: var(--neon-glow); }
+        .category-card:hover .category-icon { color: var(--primary-red); }
+        .category-name { font-size: 1rem; font-weight: 500; color: var(--primary-white); text-align: center; }
 
         /* Description - Hidden initially */
-        .description {
-            position: absolute;
-            left: 10%;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 30%;
-            max-width: 400px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: 2;
-        }
-
-        .description.visible {
-            opacity: 1;
-        }
-
-        .description-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, #fff, #e0e0e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .description-text {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
-        }
+        .description { position: absolute; left: 10%; top: 50%; transform: translateY(-50%); width: 30%; max-width: 400px; opacity: 0; transition: opacity 0.5s ease; z-index: 2; }
+        .description.visible { opacity: 1; }
+        .description-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 1.5rem; background: linear-gradient(to right, #fff, #e0e0e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .description-text { font-size: 1.1rem; line-height: 1.7; color: rgba(255, 255, 255, 0.8); margin-bottom: 2rem; }
 
         /* Scroll Indicator */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            z-index: 100;
-            transition: opacity 0.5s ease;
-        }
+        .scroll-indicator { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; z-index: 100; transition: opacity 0.5s ease; }
 
         /* Roulette Container - Fixed on the right side */
-        .roulette-container {
-            position: absolute;
-            top: 50%;
-            right: 15%;
-            transform: translateY(-50%);
-            width: 500px;
-            height: 500px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 3;
-        }
+        .roulette-container { position: absolute; top: 50%; right: 15%; transform: translateY(-50%); width: 500px; height: 500px; display: flex; justify-content: center; align-items: center; z-index: 3; }
 
         /* White circle line for roulette effect */
-        .roulette-circle {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            opacity: 0;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-            transition: opacity 0.5s ease;
-        }
-
-        .roulette-circle.visible {
-            opacity: 1;
-        }
+        .roulette-circle { position: absolute; width: 100%; height: 100%; border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 50%; opacity: 0; box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); transition: opacity 0.5s ease; }
+        .roulette-circle.visible { opacity: 1; }
 
         /* Scroll hint animation */
-        .scroll-hint {
-            position: fixed;
-            bottom: 4rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0.7;
-            transition: opacity 0.5s ease;
-        }
-
-        .scroll-hint span {
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .scroll-hint i {
-            font-size: 1.2rem;
-            animation: bounce 2s infinite;
-        }
+        .scroll-hint { position: fixed; bottom: 4rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; opacity: 0.7; transition: opacity 0.5s ease; }
+        .scroll-hint span { font-size: 0.8rem; margin-bottom: 0.5rem; }
+        .scroll-hint i { font-size: 1.2rem; animation: bounce 2s infinite; }
 
         /* Gallery Modal */
-        .gallery-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.98);
-            z-index: 2000;
-            padding: 1rem;
-        }
+        .gallery-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.98); z-index: 2000; padding: 1rem; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 0 1rem; }
+        .modal-title { font-size: 1.5rem; font-weight: 600; }
+        .close-modal { background: none; border: none; color: var(--primary-white); font-size: 1.5rem; cursor: pointer; padding: 0.5rem; }
+        .gallery-container { height: calc(100vh - 120px); position: relative; }
+        .gallery-slide { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .gallery-image { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; }
+        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.1); border: none; color: var(--primary-white); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: all 0.3s ease; }
+        .gallery-nav:hover { background: var(--primary-red); }
+        .prev-btn { left: 1rem; }
+        .next-btn { right: 1rem; }
+        .gallery-indicators { position: absolute; bottom: 1rem; left: 0; right: 0; display: flex; justify-content: center; gap: 0.5rem; padding: 1rem; }
+        .indicator { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); cursor: pointer; transition: all 0.3s ease; }
+        .indicator.active { background: var(--primary-red); transform: scale(1.2); }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 0 1rem;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: var(--primary-white);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .gallery-container {
-            height: calc(100vh - 120px);
-            position: relative;
-        }
-
-        .gallery-slide {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .gallery-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .gallery-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: var(--primary-white);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .gallery-nav:hover {
-            background: var(--primary-red);
-        }
-
-        .prev-btn {
-            left: 1rem;
-        }
-
-        .next-btn {
-            right: 1rem;
-        }
-
-        .gallery-indicators {
-            position: absolute;
-            bottom: 1rem;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1rem;
-        }
-
-        .indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .indicator.active {
-            background: var(--primary-red);
-            transform: scale(1.2);
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
     </style>
 </head>
 <body>
@@ -413,15 +179,36 @@
 
     <!-- Portfolio Container -->
     <div class="portfolio-container">
-        <!-- Gallery Icon -->
+        <!-- Handwritten Neon Gallery Wordmark (SVG) -->
         <div class="gallery-icon" id="galleryIcon">
-            <i class="fas fa-images"></i>
-            <span>Gallery</span>
+            <svg class="neon-word" viewBox="0 0 1200 300" role="img" aria-label="Gallery">
+                <defs>
+                    <!-- Neon glow -->
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <!-- Stroke draws first -->
+                <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" class="word-stroke" style="font-family:'Great Vibes',cursive; font-size:220px;">Gallery</text>
+                <!-- Then fill fades in -->
+                <text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" class="word-fill" style="font-family:'Great Vibes',cursive; font-size:220px;">Gallery</text>
+
+                <!-- Pen dot moving across (approximate path using simple translate along x) -->
+                <circle class="pen-dot" cx="60" cy="150" r="8" />
+
+                <!-- Drips (positions tuned visually under some letters) -->
+                <circle class="drip d1" cx="520" cy="190" r="6" />
+                <circle class="drip d2" cx="650" cy="200" r="7" />
+                <circle class="drip d3" cx="780" cy="195" r="5" />
+            </svg>
         </div>
 
         <!-- Roulette Container -->
         <div class="roulette-container">
-            <!-- Roulette Circle -->
             <div class="roulette-circle" id="rouletteCircle"></div>
 
             <!-- Category Cards -->
@@ -458,10 +245,7 @@
         <!-- Description -->
         <div class="description" id="description">
             <h2 class="description-title">Premium Visual Content</h2>
-            <p class="description-text">
-                We create stunning photography and videography that tells your brand's story. 
-                Our cinematic approach elevates your business and connects with your audience.
-            </p>
+            <p class="description-text">We create stunning photography and videography that tells your brand's story. Our cinematic approach elevates your business and connects with your audience.</p>
         </div>
     </div>
 
@@ -469,39 +253,32 @@
     <div class="gallery-modal" id="galleryModal">
         <div class="modal-header">
             <h3 class="modal-title" id="modalTitle">Gallery</h3>
-            <button class="close-modal" id="closeModal">
-                <i class="fas fa-times"></i>
-            </button>
+            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
         </div>
         <div class="gallery-container">
             <div class="gallery-slide">
-                <img class="gallery-image" id="currentImage" src="" alt="">
+                <img class="gallery-image" id="currentImage" src="" alt="" />
             </div>
-            <button class="gallery-nav prev-btn" id="prevBtn">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="gallery-nav next-btn" id="nextBtn">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-            <div class="gallery-indicators" id="indicators">
-                <!-- Indicators will be added dynamically -->
-            </div>
+            <button class="gallery-nav prev-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+            <button class="gallery-nav next-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+            <div class="gallery-indicators" id="indicators"></div>
         </div>
     </div>
 
     <!-- Scroll Indicator -->
     <div class="scroll-indicator" id="scrollIndicator">Scroll to explore</div>
-    
     <!-- Scroll Hint -->
-    <div class="scroll-hint" id="scrollHint">
-        <span>Scroll down</span>
-        <i class="fas fa-chevron-down"></i>
-    </div>
+    <div class="scroll-hint" id="scrollHint"><span>Scroll down</span><i class="fas fa-chevron-down"></i></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Elements
             const galleryIcon = document.getElementById('galleryIcon');
+            const neonWord = document.querySelector('.neon-word');
+            const wordStroke = document.querySelector('.word-stroke');
+            const wordFill = document.querySelector('.word-fill');
+            const penDot = document.querySelector('.pen-dot');
+
             const categoryCards = document.querySelectorAll('.category-card');
             const description = document.getElementById('description');
             const mainNav = document.getElementById('mainNav');
@@ -516,334 +293,55 @@
             const closeModal = document.getElementById('closeModal');
             const indicators = document.getElementById('indicators');
 
-            // Portfolio Configuration with Image URLs
-            const portfolioConfig = {
-                categories: [
-                    { 
-                        id: 'branding', 
-                        title: 'Branding', 
-                        images: [
-                            'branding/1.webp',
-                            'branding/2.webp',
-                            'branding/3.webp',
-                            'branding/4.webp',
-                            'branding/5.webp',
-                            'branding/dynamic post (1).webp',
-                            'branding/dynamic post (2).webp',
-                            'branding/dynamicpost(3).webp'
-                        ]
-                    },
-                    { 
-                        id: 'socialmedia', 
-                        title: 'Social Media', 
-                        images: [
-                            'socialmedia/1.webp',
-                            'socialmedia/dentour post (1080 x 1080 px) (39).webp',
-                            'socialmedia/dentour. post (4).webp',
-                            'socialmedia/destiny hotel 1.webp',
-                            'socialmedia/destiny hotel 3.webp',
-                            'socialmedia/dyn x3.webp',
-                            'socialmedia/dynamic post 3 hilton.webp',
-                            'socialmedia/dynamic post ark post 1 slide2.webp',
-                            'socialmedia/dynamic post ark post 1 slide3.webp',
-                            'socialmedia/dynamic post ark post 1 slide4.webp',
-                            'socialmedia/dynamic post ark post 1.webp',
-                            'socialmedia/dynamic post ark post 2.webp',
-                            'socialmedia/dynamic post chef 1.webp',
-                            'socialmedia/dynamic post ykm3.webp',
-                            'socialmedia/dynamic posti 3.webp',
-                            'socialmedia/dynamic swiss post 3.webp',
-                            'socialmedia/elinikon plani mujor2..webp',
-                            'socialmedia/hilton 3.webp',
-                            'socialmedia/Instagram elite.webp',
-                            'socialmedia/photo dynamic post.webp'
-                        ]
-                    },
-                    { 
-                        id: 'clinics', 
-                        title: 'Medical Clinics', 
-                        images: [
-                            'clinics/184A5569.webp',
-                            'clinics/184A5584.webp',
-                            'clinics/184A7374.webp',
-                            'clinics/184A8776.webp',
-                            'clinics/184A8781.webp',
-                            'clinics/184A9472.webp',
-                            'clinics/184A9983.webp',
-                            'clinics/184A9990.webp',
-                            'clinics/184A9991.webp',
-                            'clinics/184A9994.webp',
-                            'clinics/20241206-DSC_4964.webp',
-                            'clinics/_84A0924.webp',
-                            'clinics/IMG_0583.webp',
-                            'clinics/IMG_0658.webp',
-                            'clinics/IMG_1097_1.webp',
-                            'clinics/IMG_4202.webp',
-                            'clinics/IMG_4455.webp',
-                            'clinics/IMG_4547_1.webp',
-                            'clinics/IMG_4559_1.webp',
-                            'clinics/IMG_4632.webp',
-                            'clinics/IMG_4680.webp',
-                            'clinics/IMG_7010.webp',
-                            'clinics/IMG_7011.webp',
-                            'clinics/IMG_7061.webp',
-                            'clinics/IMG_7436.webp',
-                            'clinics/IMG_7454.webp',
-                            'clinics/IMG_9641.webp',
-                            'clinics/IMG_9714_1.webp',
-                            'clinics/IMG_9839.webp',
-                            'clinics/IMG_9900.webp',
-                            'clinics/LAE01648.webp',
-                            'clinics/LAE03867.webp',
-                            'clinics/LAE03875.webp'
-                        ]
-                    },
-                    { 
-                        id: 'restaurants', 
-                        title: 'Restaurants', 
-                        images: [
-                            'restaurants/022A1189.webp',
-                            'restaurants/022A1190.webp',
-                            'restaurants/022A1226.webp',
-                            'restaurants/022A1227.webp',
-                            'restaurants/022A3621.webp',
-                            'restaurants/022A3696.webp',
-                            'restaurants/022A3707.webp',
-                            'restaurants/022A7766.webp',
-                            'restaurants/022A7768.webp',
-                            'restaurants/022A7772.webp',
-                            'restaurants/1.webp',
-                            'restaurants/184A2815.webp',
-                            'restaurants/2.webp',
-                            'restaurants/20230418-IMG_3802.webp',
-                            'restaurants/20240618-C0123T01.webp',
-                            'restaurants/20240909-LAE00063.webp',
-                            'restaurants/3.webp',
-                            'restaurants/4.webp',
-                            'restaurants/5.webp',
-                            'restaurants/ALTEO-46.webp',
-                            'restaurants/ALTEO-49.webp',
-                            'restaurants/ALTEO-70.webp',
-                            'restaurants/AMH-10.webp',
-                            'restaurants/AMH-11.webp',
-                            'restaurants/dynamic vera 3.2.webp',
-                            'restaurants/dynamic vera 3.3.webp',
-                            'restaurants/dynamic vera 3.4.webp',
-                            'restaurants/dynamic vera 3.5.webp',
-                            'restaurants/IMG_0224.webp',
-                            'restaurants/IMG_0225.webp',
-                            'restaurants/IMG_0227.webp',
-                            'restaurants/IMG_0565.webp',
-                            'restaurants/IMG_0723.webp',
-                            'restaurants/IMG_3789.webp',
-                            'restaurants/IMG_3791.webp',
-                            'restaurants/IMG_3798.webp',
-                            'restaurants/IMG_5035.webp',
-                            'restaurants/IMG_5444.webp',
-                            'restaurants/IMG_5447.webp',
-                            'restaurants/IMG_5448.webp',
-                            'restaurants/IMG_7145.webp',
-                            'restaurants/IMG_7148.webp',
-                            'restaurants/IMG_7154.webp',
-                            'restaurants/IMG_7444.webp',
-                            'restaurants/IMG_8780.webp',
-                            'restaurants/IMG_8781.webp',
-                            'restaurants/IMG_8786.webp',
-                            'restaurants/IMG_8789.webp',
-                            'restaurants/IMG_9209.webp',
-                            'restaurants/IMG_9215.webp',
-                            'restaurants/IMG_9639.webp',
-                            'restaurants/IMG_9712.webp',
-                            'restaurants/LAE00017.webp',
-                            'restaurants/LAE00024.webp',
-                            'restaurants/LAE09531.webp',
-                            'restaurants/LAE09562.webp',
-                            'restaurants/LAE09563.webp'
-                        ]
-                    },
-                    { 
-                        id: 'events', 
-                        title: 'Events', 
-                        images: [
-                            'events/184A0468.webp',
-                            'events/184A0471.webp',
-                            'events/184A0472.webp',
-                            'events/184A0474.webp',
-                            'events/184A0485.webp',
-                            'events/184A0705.webp',
-                            'events/184A2769.webp',
-                            'events/184A5707.webp',
-                            'events/184A5718.webp',
-                            'events/184A5719.webp',
-                            'events/184A5730.webp',
-                            'events/IMG_0239.webp',
-                            'events/IMG_0244.webp',
-                            'events/IMG_0248.webp',
-                            'events/IMG_0249.webp',
-                            'events/IMG_0262.webp',
-                            'events/IMG_0842_1.webp',
-                            'events/IMG_0885.webp',
-                            'events/IMG_1331.webp',
-                            'events/IMG_1348.webp',
-                            'events/IMG_1593.webp',
-                            'events/IMG_2717.webp',
-                            'events/IMG_2763.webp',
-                            'events/IMG_2768.webp',
-                            'events/IMG_2769.webp',
-                            'events/IMG_2795.webp',
-                            'events/IMG_2816.webp',
-                            'events/IMG_2817.webp',
-                            'events/IMG_2832.webp',
-                            'events/IMG_2836.webp',
-                            'events/IMG_4087.webp',
-                            'events/IMG_9439.webp'
-                        ]
-                    },
-                    { 
-                        id: 'renovations', 
-                        title: 'Renovations', 
-                        images: [
-                            'renovations/184A5368.webp',
-                            'renovations/184A5369.webp',
-                            'renovations/184A5370.webp',
-                            'renovations/184A6119.webp',
-                            'renovations/184A6138.webp',
-                            'renovations/184A6152.webp',
-                            'renovations/184A6563.webp',
-                            'renovations/184A6605.webp',
-                            'renovations/184A6619.webp',
-                            'renovations/20241213-DJI_20241213113803_0388_D.webp',
-                            'renovations/DJI_20241007104055_0183_D.webp',
-                            'renovations/DJI_20241007111239_0224_D.webp',
-                            'renovations/DJI_20241007111249_0225_D.webp',
-                            'renovations/DJI_20241007111451_0233_D.webp',
-                            'renovations/IMG_0187.webp',
-                            'renovations/IMG_0189.webp',
-                            'renovations/IMG_0190.webp',
-                            'renovations/IMG_0260_1.webp',
-                            'renovations/IMG_0263.webp',
-                            'renovations/IMG_0511.webp',
-                            'renovations/IMG_0653.webp',
-                            'renovations/IMG_0687.webp',
-                            'renovations/IMG_0688.webp',
-                            'renovations/IMG_0843.webp',
-                            'renovations/IMG_0858.webp',
-                            'renovations/IMG_3081_1.webp',
-                            'renovations/IMG_4923.webp',
-                            'renovations/IMG_4968.webp',
-                            'renovations/IMG_5065.webp',
-                            'renovations/IMG_5078.webp',
-                            'renovations/IMG_6433.webp',
-                            'renovations/IMG_6434.webp',
-                            'renovations/IMG_6435.webp',
-                            'renovations/IMG_7291.webp',
-                            'renovations/IMG_7310.webp',
-                            'renovations/IMG_7315.webp',
-                            'renovations/IMG_7322.webp',
-                            'renovations/IMG_7324.webp',
-                            'renovations/IMG_7372.webp',
-                            'renovations/IMG_7373.webp',
-                            'renovations/IMG_8585.webp',
-                            'renovations/IMG_8591.webp',
-                            'renovations/IMG_8598.webp',
-                            'renovations/IMG_8815.webp',
-                            'renovations/IMG_8872.webp',
-                            'renovations/IMG_8874.webp',
-                            'renovations/IMG_8893.webp',
-                            'renovations/IMG_8895.webp',
-                            'renovations/IMG_8897.webp',
-                            'renovations/IMG_8898.webp',
-                            'renovations/IMG_8900.webp'
-                        ]
-                    },
-                    { 
-                        id: 'hotels', 
-                        title: 'Hotels', 
-                        images: [
-                            'hotels/022A2169.webp',
-                            'hotels/022A2286.webp',
-                            'hotels/022A2288.webp',
-                            'hotels/022A2289.webp',
-                            'hotels/022A2313.webp',
-                            'hotels/022A2315.webp',
-                            'hotels/022A2608.webp',
-                            'hotels/184A1107.webp',
-                            'hotels/20230412_143012.webp',
-                            'hotels/20240517-DJI_20240517212139_0095_D.webp',
-                            'hotels/20240518-DJI_20240518090019_0017_D.webp',
-                            'hotels/20241011-IMG_3470.webp',
-                            'hotels/20241011-IMG_3507.webp',
-                            'hotels/AMH-10.webp',
-                            'hotels/DJI_0325.webp',
-                            'hotels/DJI_0348.webp',
-                            'hotels/DJI_0383.webp',
-                            'hotels/DJI_20241005122204_0154_D.webp',
-                            'hotels/DJI_20250222100851_0018_D.webp',
-                            'hotels/IMG_0523.webp',
-                            'hotels/IMG_1140.webp',
-                            'hotels/IMG_1174.webp',
-                            'hotels/IMG_1514.webp',
-                            'hotels/IMG_1544.webp',
-                            'hotels/IMG_1550.webp',
-                            'hotels/IMG_1640.webp',
-                            'hotels/IMG_2754.webp',
-                            'hotels/IMG_2778.webp',
-                            'hotels/IMG_2782.webp',
-                            'hotels/IMG_4339.webp',
-                            'hotels/IMG_7490.webp',
-                            'hotels/IMG_7650.webp',
-                            'hotels/IMG_7664.webp',
-                            'hotels/IMG_7733.webp',
-                            'hotels/IMG_9426.webp',
-                            'hotels/IMG_9852.webp',
-                            'hotels/LAE06269.webp',
-                            'hotels/LAE09345.webp',
-                            'hotels/LAE09348.webp',
-                            'hotels/PAMJE HOTELI.webp',
-                            'hotels/Rm 804 Standard King with Balcony 2.webp',
-                            'hotels/Rm 804 Standard King with Balcony.webp'
-                        ]
-                    }
-                ]
-            };
+            // Portfolio Configuration with Image URLs (unchanged)
+            const portfolioConfig = { categories: [
+                { id: 'branding', title: 'Branding', images: ['branding/1.webp','branding/2.webp','branding/3.webp','branding/4.webp','branding/5.webp','branding/dynamic post (1).webp','branding/dynamic post (2).webp','branding/dynamicpost(3).webp'] },
+                { id: 'socialmedia', title: 'Social Media', images: ['socialmedia/1.webp','socialmedia/dentour post (1080 x 1080 px) (39).webp','socialmedia/dentour. post (4).webp','socialmedia/destiny hotel 1.webp','socialmedia/destiny hotel 3.webp','socialmedia/dyn x3.webp','socialmedia/dynamic post 3 hilton.webp','socialmedia/dynamic post ark post 1 slide2.webp','socialmedia/dynamic post ark post 1 slide3.webp','socialmedia/dynamic post ark post 1 slide4.webp','socialmedia/dynamic post ark post 1.webp','socialmedia/dynamic post ark post 2.webp','socialmedia/dynamic post chef 1.webp','socialmedia/dynamic post ykm3.webp','socialmedia/dynamic posti 3.webp','socialmedia/dynamic swiss post 3.webp','socialmedia/elinikon plani mujor2..webp','socialmedia/hilton 3.webp','socialmedia/Instagram elite.webp','socialmedia/photo dynamic post.webp'] },
+                { id: 'clinics', title: 'Medical Clinics', images: ['clinics/184A5569.webp','clinics/184A5584.webp','clinics/184A7374.webp','clinics/184A8776.webp','clinics/184A8781.webp','clinics/184A9472.webp','clinics/184A9983.webp','clinics/184A9990.webp','clinics/184A9991.webp','clinics/184A9994.webp','clinics/20241206-DSC_4964.webp','clinics/_84A0924.webp','clinics/IMG_0583.webp','clinics/IMG_0658.webp','clinics/IMG_1097_1.webp','clinics/IMG_4202.webp','clinics/IMG_4455.webp','clinics/IMG_4547_1.webp','clinics/IMG_4559_1.webp','clinics/IMG_4632.webp','clinics/IMG_4680.webp','clinics/IMG_7010.webp','clinics/IMG_7011.webp','clinics/IMG_7061.webp','clinics/IMG_7436.webp','clinics/IMG_7454.webp','clinics/IMG_9641.webp','clinics/IMG_9714_1.webp','clinics/IMG_9839.webp','clinics/IMG_9900.webp','clinics/LAE01648.webp','clinics/LAE03867.webp','clinics/LAE03875.webp'] },
+                { id: 'restaurants', title: 'Restaurants', images: ['restaurants/022A1189.webp','restaurants/022A1190.webp','restaurants/022A1226.webp','restaurants/022A1227.webp','restaurants/022A3621.webp','restaurants/022A3696.webp','restaurants/022A3707.webp','restaurants/022A7766.webp','restaurants/022A7768.webp','restaurants/022A7772.webp','restaurants/1.webp','restaurants/184A2815.webp','restaurants/2.webp','restaurants/20230418-IMG_3802.webp','restaurants/20240618-C0123T01.webp','restaurants/20240909-LAE00063.webp','restaurants/3.webp','restaurants/4.webp','restaurants/5.webp','restaurants/ALTEO-46.webp','restaurants/ALTEO-49.webp','restaurants/ALTEO-70.webp','restaurants/AMH-10.webp','restaurants/AMH-11.webp','restaurants/dynamic vera 3.2.webp','restaurants/dynamic vera 3.3.webp','restaurants/dynamic vera 3.4.webp','restaurants/dynamic vera 3.5.webp','restaurants/IMG_0224.webp','restaurants/IMG_0225.webp','restaurants/IMG_0227.webp','restaurants/IMG_0565.webp','restaurants/IMG_0723.webp','restaurants/IMG_3789.webp','restaurants/IMG_3791.webp','restaurants/IMG_3798.webp','restaurants/IMG_5035.webp','restaurants/IMG_5444.webp','restaurants/IMG_5447.webp','restaurants/IMG_5448.webp','restaurants/IMG_7145.webp','restaurants/IMG_7148.webp','restaurants/IMG_7154.webp','restaurants/IMG_7444.webp','restaurants/IMG_8780.webp','restaurants/IMG_8781.webp','restaurants/IMG_8786.webp','restaurants/IMG_8789.webp','restaurants/IMG_9209.webp','restaurants/IMG_9215.webp','restaurants/IMG_9639.webp','restaurants/IMG_9712.webp','restaurants/LAE00017.webp','restaurants/LAE00024.webp','restaurants/LAE09531.webp','restaurants/LAE09562.webp','restaurants/LAE09563.webp'] },
+                { id: 'events', title: 'Events', images: ['events/184A0468.webp','events/184A0471.webp','events/184A0472.webp','events/184A0474.webp','events/184A0485.webp','events/184A0705.webp','events/184A2769.webp','events/184A5707.webp','events/184A5718.webp','events/184A5719.webp','events/184A5730.webp','events/IMG_0239.webp','events/IMG_0244.webp','events/IMG_0248.webp','events/IMG_0249.webp','events/IMG_0262.webp','events/IMG_0842_1.webp','events/IMG_0885.webp','events/IMG_1331.webp','events/IMG_1348.webp','events/IMG_1593.webp','events/IMG_2717.webp','events/IMG_2763.webp','events/IMG_2768.webp','events/IMG_2769.webp','events/IMG_2795.webp','events/IMG_2816.webp','events/IMG_2817.webp','events/IMG_2832.webp','events/IMG_2836.webp','events/IMG_4087.webp','events/IMG_9439.webp'] },
+                { id: 'renovations', title: 'Renovations', images: ['renovations/184A5368.webp','renovations/184A5369.webp','renovations/184A5370.webp','renovations/184A6119.webp','renovations/184A6138.webp','renovations/184A6152.webp','renovations/184A6563.webp','renovations/184A6605.webp','renovations/184A6619.webp','renovations/20241213-DJI_20241213113803_0388_D.webp','renovations/DJI_20241007104055_0183_D.webp','renovations/DJI_20241007111239_0224_D.webp','renovations/DJI_20241007111249_0225_D.webp','renovations/DJI_20241007111451_0233_D.webp','renovations/IMG_0187.webp','renovations/IMG_0189.webp','renovations/IMG_0190.webp','renovations/IMG_0260_1.webp','renovations/IMG_0263.webp','renovations/IMG_0511.webp','renovations/IMG_0653.webp','renovations/IMG_0687.webp','renovations/IMG_0688.webp','renovations/IMG_0843.webp','renovations/IMG_0858.webp','renovations/IMG_3081_1.webp','renovations/IMG_4923.webp','renovations/IMG_4968.webp','renovations/IMG_5065.webp','renovations/IMG_5078.webp','renovations/IMG_6433.webp','renovations/IMG_6434.webp','renovations/IMG_6435.webp','renovations/IMG_7291.webp','renovations/IMG_7310.webp','renovations/IMG_7315.webp','renovations/IMG_7322.webp','renovations/IMG_7324.webp','renovations/IMG_7372.webp','renovations/IMG_7373.webp','renovations/IMG_8585.webp','renovations/IMG_8591.webp','renovations/IMG_8598.webp','renovations/IMG_8815.webp','renovations/IMG_8872.webp','renovations/IMG_8874.webp','renovations/IMG_8893.webp','renovations/IMG_8895.webp','renovations/IMG_8897.webp','renovations/IMG_8898.webp','renovations/IMG_8900.webp'] },
+                { id: 'hotels', title: 'Hotels', images: ['hotels/022A2169.webp','hotels/022A2286.webp','hotels/022A2288.webp','hotels/022A2289.webp','hotels/022A2313.webp','hotels/022A2315.webp','hotels/022A2608.webp','hotels/184A1107.webp','hotels/20230412_143012.webp','hotels/20240517-DJI_20240517212139_0095_D.webp','hotels/20240518-DJI_20240518090019_0017_D.webp','hotels/20241011-IMG_3470.webp','hotels/20241011-IMG_3507.webp','hotels/AMH-10.webp','hotels/DJI_0325.webp','hotels/DJI_0348.webp','hotels/DJI_0383.webp','hotels/DJI_20241005122204_0154_D.webp','hotels/DJI_20250222100851_0018_D.webp','hotels/IMG_0523.webp','hotels/IMG_1140.webp','hotels/IMG_1174.webp','hotels/IMG_1514.webp','hotels/IMG_1544.webp','hotels/IMG_1550.webp','hotels/IMG_1640.webp','hotels/IMG_2754.webp','hotels/IMG_2778.webp','hotels/IMG_2782.webp','hotels/IMG_4339.webp','hotels/IMG_7490.webp','hotels/IMG_7650.webp','hotels/IMG_7664.webp','hotels/IMG_7733.webp','hotels/IMG_9426.webp','hotels/IMG_9852.webp','hotels/LAE06269.webp','hotels/LAE09345.webp','hotels/LAE09348.webp','hotels/PAMJE HOTELI.webp','hotels/Rm 804 Standard King with Balcony 2.webp','hotels/Rm 804 Standard King with Balcony.webp'] }
+            ] };
 
-            // State
+            // One-time write + pen movement + mark as revealed so it won't replay on hover or re-show
+            let hasRevealed = false;
+            const handleRevealEnd = () => {
+                if (hasRevealed) return;
+                hasRevealed = true;
+                neonWord.classList.add('revealed');
+                // freeze pen at end by removing its animation
+                penDot && (penDot.style.animation = 'none');
+            };
+            wordFill.addEventListener('animationend', handleRevealEnd, { once: true });
+
+            // Elements for interactions
             let currentState = 'initial';
-            let scrollCount = 0;
-            const scrollThreshold = 2;
-            let isTransitioning = false;
+            let scrollCount = 0; const scrollThreshold = 2; let isTransitioning = false;
 
             // Gallery state
-            let currentCategory = null;
-            let currentImageIndex = 0;
-            let categoryImages = [];
+            let currentCategory = null; let currentImageIndex = 0; let categoryImages = [];
 
             // Perfect circle positions for 7 items with equal spacing
-            // Using a larger radius to place cards on the edge of the circle
-            const radius = 240; // Increased radius to place cards on the edge
-            
-            // Precisely calculated positions for perfect equal spacing on the circumference
+            const radius = 240;
             const categoryPositions = [
-                // Starting from top and going clockwise
-                { x: 0, y: -radius },                      // Top
-                { x: radius * Math.sin(2 * Math.PI / 7), y: -radius * Math.cos(2 * Math.PI / 7) }, // ~51.4°
-                { x: radius * Math.sin(4 * Math.PI / 7), y: -radius * Math.cos(4 * Math.PI / 7) }, // ~102.9°
-                { x: radius * Math.sin(6 * Math.PI / 7), y: -radius * Math.cos(6 * Math.PI / 7) }, // ~154.3°
-                { x: radius * Math.sin(8 * Math.PI / 7), y: -radius * Math.cos(8 * Math.PI / 7) }, // ~205.7°
-                { x: radius * Math.sin(10 * Math.PI / 7), y: -radius * Math.cos(10 * Math.PI / 7) }, // ~257.1°
-                { x: radius * Math.sin(12 * Math.PI / 7), y: -radius * Math.cos(12 * Math.PI / 7) }  // ~308.6°
+                { x: 0, y: -radius },
+                { x: radius * Math.sin(2 * Math.PI / 7), y: -radius * Math.cos(2 * Math.PI / 7) },
+                { x: radius * Math.sin(4 * Math.PI / 7), y: -radius * Math.cos(4 * Math.PI / 7) },
+                { x: radius * Math.sin(6 * Math.PI / 7), y: -radius * Math.cos(6 * Math.PI / 7) },
+                { x: radius * Math.sin(8 * Math.PI / 7), y: -radius * Math.cos(8 * Math.PI / 7) },
+                { x: radius * Math.sin(10 * Math.PI / 7), y: -radius * Math.cos(10 * Math.PI / 7) },
+                { x: radius * Math.sin(12 * Math.PI / 7), y: -radius * Math.cos(12 * Math.PI / 7) }
             ];
 
             // Click handler for gallery icon
-            galleryIcon.addEventListener('click', function() {
-                if (currentState === 'initial' && !isTransitioning) {
-                    expandToRoulette();
-                }
+            galleryIcon.addEventListener('click', function () {
+                if (currentState === 'initial' && !isTransitioning) expandToRoulette();
             });
 
             // Click handler for category cards
             categoryCards.forEach(card => {
-                card.addEventListener('click', function() {
+                card.addEventListener('click', function () {
                     if (currentState === 'expanded' && !isTransitioning) {
                         const category = this.getAttribute('data-category');
                         openGallery(category);
@@ -851,235 +349,89 @@
                 });
             });
 
-            // Function to open gallery for a category
             function openGallery(categoryId) {
                 const category = portfolioConfig.categories.find(cat => cat.id === categoryId);
                 if (!category) return;
-
                 currentCategory = category;
-                
                 if (category.images && category.images.length > 0) {
-                    categoryImages = category.images;
-                    currentImageIndex = 0;
-                    showGallery();
-                } else {
-                    alert('No images found in the ' + currentCategory.title + ' category.');
-                }
+                    categoryImages = category.images; currentImageIndex = 0; showGallery();
+                } else { alert('No images found in the ' + currentCategory.title + ' category.'); }
             }
 
-            // Function to show gallery
-            function showGallery() {
-                modalTitle.textContent = currentCategory.title;
-                galleryModal.style.display = 'block';
-                loadCurrentImage();
-                createIndicators();
-            }
+            function showGallery() { modalTitle.textContent = currentCategory.title; galleryModal.style.display = 'block'; loadCurrentImage(); createIndicators(); }
 
-            // Function to load current image
             function loadCurrentImage() {
                 if (!currentCategory || categoryImages.length === 0) return;
-                
                 const imagePath = categoryImages[currentImageIndex];
-                
                 const img = new Image();
-                img.onload = function() {
-                    currentImage.src = imagePath;
-                    currentImage.alt = `${currentCategory.title} ${currentImageIndex + 1}`;
-                };
-                img.src = imagePath;
-                
-                updateIndicators();
+                img.onload = function () { currentImage.src = imagePath; currentImage.alt = `${currentCategory.title} ${currentImageIndex + 1}`; };
+                img.src = imagePath; updateIndicators();
             }
 
-            // Function to create indicators
-            function createIndicators() {
-                indicators.innerHTML = `<div style="color: white;">${currentImageIndex + 1} / ${categoryImages.length}</div>`;
-            }
+            function createIndicators() { indicators.innerHTML = `<div style="color: white;">${currentImageIndex + 1} / ${categoryImages.length}</div>`; }
+            function updateIndicators() { indicators.innerHTML = `<div style="color: white;">${currentImageIndex + 1} / ${categoryImages.length}</div>`; }
+            function nextImage() { if (categoryImages.length === 0) return; currentImageIndex = (currentImageIndex + 1) % categoryImages.length; loadCurrentImage(); }
+            function prevImage() { if (categoryImages.length === 0) return; currentImageIndex = (currentImageIndex - 1 + categoryImages.length) % categoryImages.length; loadCurrentImage(); }
+            function closeGallery() { galleryModal.style.display = 'none'; currentCategory = null; categoryImages = []; currentImageIndex = 0; }
 
-            // Function to update indicators
-            function updateIndicators() {
-                indicators.innerHTML = `<div style="color: white;">${currentImageIndex + 1} / ${categoryImages.length}</div>`;
-            }
-
-            // Function to navigate to next image
-            function nextImage() {
-                if (categoryImages.length === 0) return;
-                currentImageIndex = (currentImageIndex + 1) % categoryImages.length;
-                loadCurrentImage();
-            }
-
-            // Function to navigate to previous image
-            function prevImage() {
-                if (categoryImages.length === 0) return;
-                currentImageIndex = (currentImageIndex - 1 + categoryImages.length) % categoryImages.length;
-                loadCurrentImage();
-            }
-
-            // Close gallery modal
-            function closeGallery() {
-                galleryModal.style.display = 'none';
-                currentCategory = null;
-                categoryImages = [];
-                currentImageIndex = 0;
-            }
-
-            // Expand to roulette function
             function expandToRoulette() {
-                isTransitioning = true;
-                currentState = 'expanded';
-                
-                // Hide gallery icon
-                gsap.to(galleryIcon, {
-                    duration: 0.4,
-                    opacity: 0,
-                    scale: 0.8,
-                    onComplete: () => {
-                        galleryIcon.style.display = 'none';
-                    }
-                });
-                
-                // Show navigation (only after expansion)
-                gsap.to(mainNav, {
-                    duration: 0.5,
-                    opacity: 1,
-                    y: 0,
-                    delay: 0.3
-                });
-                
-                // Show description
-                gsap.to(description, {
-                    duration: 0.5,
-                    opacity: 1,
-                    delay: 0.2
-                });
-                
-                // Show roulette circle
-                gsap.to(rouletteCircle, {
-                    duration: 0.5,
-                    opacity: 1
-                });
-                
-                // Position and show category cards in perfect circle formation
+                isTransitioning = true; currentState = 'expanded';
+                // hide the neon wordmark (no replay of write animation on return)
+                gsap.to(galleryIcon, { duration: 0.4, opacity: 0, scale: 0.92, onComplete: () => { galleryIcon.style.display = 'none'; } });
+                gsap.to(mainNav, { duration: 0.5, opacity: 1, y: 0, delay: 0.3 });
+                gsap.to(description, { duration: 0.5, opacity: 1, delay: 0.2 });
+                gsap.to(rouletteCircle, { duration: 0.5, opacity: 1 });
                 categoryCards.forEach((card, index) => {
-                    const pos = categoryPositions[index];
-                    card.style.display = 'flex';
-                    
-                    gsap.to(card, {
-                        duration: 0.6,
-                        x: pos.x,
-                        y: pos.y,
-                        opacity: 1,
-                        scale: 1,
-                        delay: index * 0.08,
-                        ease: "back.out(1.7)",
-                        onComplete: () => {
-                            if (index === categoryCards.length - 1) {
-                                isTransitioning = false;
-                            }
-                        }
-                    });
+                    const pos = categoryPositions[index]; card.style.display = 'flex';
+                    gsap.to(card, { duration: 0.6, x: pos.x, y: pos.y, opacity: 1, scale: 1, delay: index * 0.08, ease: 'back.out(1.7)', onComplete: () => { if (index === categoryCards.length - 1) isTransitioning = false; } });
                 });
-                
-                // Hide scroll indicator and hint
-                scrollIndicator.style.opacity = '0';
-                scrollHint.style.opacity = '0';
+                scrollIndicator.style.opacity = '0'; scrollHint.style.opacity = '0';
             }
 
-            // Collapse back to gallery function
             function collapseToGallery() {
-                isTransitioning = true;
-                currentState = 'collapsed';
-                
-                // Hide navigation
-                gsap.to(mainNav, {
-                    duration: 0.5,
-                    opacity: 0,
-                    y: -20
-                });
-                
-                // Hide description
-                gsap.to(description, {
-                    duration: 0.5,
-                    opacity: 0
-                });
-                
-                // Hide roulette circle
-                gsap.to(rouletteCircle, {
-                    duration: 0.5,
-                    opacity: 0
-                });
-                
-                // Move category cards back to center and hide them
+                isTransitioning = true; currentState = 'collapsed';
+                gsap.to(mainNav, { duration: 0.5, opacity: 0, y: -20 });
+                gsap.to(description, { duration: 0.5, opacity: 0 });
+                gsap.to(rouletteCircle, { duration: 0.5, opacity: 0 });
                 categoryCards.forEach((card, index) => {
-                    gsap.to(card, {
-                        duration: 0.6,
-                        x: 0,
-                        y: 0,
-                        opacity: 0,
-                        scale: 0.8,
-                        delay: index * 0.08,
-                        ease: "power2.in",
-                        onComplete: () => {
-                            card.style.display = 'none';
-                            
-                            // Show gallery icon when last card is hidden
-                            if (index === categoryCards.length - 1) {
-                                galleryIcon.style.display = 'flex';
-                                gsap.to(galleryIcon, {
-                                    duration: 0.5,
-                                    opacity: 1,
-                                    scale: 1,
-                                    onComplete: () => {
-                                        // Reset to initial state
-                                        currentState = 'initial';
-                                        scrollCount = 0;
-                                        isTransitioning = false;
-                                        scrollIndicator.style.opacity = '1';
-                                        scrollHint.style.opacity = '0.7';
-                                    }
-                                });
-                            }
+                    gsap.to(card, { duration: 0.6, x: 0, y: 0, opacity: 0, scale: 0.8, delay: index * 0.08, ease: 'power2.in', onComplete: () => {
+                        card.style.display = 'none';
+                        if (index === categoryCards.length - 1) {
+                            galleryIcon.style.display = 'flex';
+                            gsap.to(galleryIcon, { duration: 0.5, opacity: 1, scale: 1, onComplete: () => {
+                                currentState = 'initial'; scrollCount = 0; isTransitioning = false; scrollIndicator.style.opacity = '1'; scrollHint.style.opacity = '0.7';
+                                // keep the revealed state; do NOT restart animations
+                            }});
                         }
-                    });
+                    }});
                 });
             }
+
+            // Move the pen-dot across the word roughly from left to right (match viewBox width)
+            function animatePen() {
+                const totalTime = 2200; // ms
+                const start = performance.now();
+                function frame(now) {
+                    const t = Math.min(1, (now - start) / totalTime);
+                    const x = 60 + t * (1080); // from ~left to near right of viewBox
+                    penDot.setAttribute('cx', x.toString());
+                    if (t < 1) requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+            }
+            animatePen();
 
             // Scroll handler
-            let scrollTimeout;
-            window.addEventListener('wheel', function(e) {
-                if (isTransitioning) return;
-                
-                if (e.deltaY > 0) {
-                    scrollCount++;
-                    
-                    if (scrollTimeout) clearTimeout(scrollTimeout);
-                    
-                    scrollTimeout = setTimeout(() => {
-                        handleScrollTransition();
-                        scrollCount = 0;
-                    }, 200);
+            let scrollTimeout; window.addEventListener('wheel', function (e) {
+                if (isTransitioning) return; if (e.deltaY > 0) {
+                    scrollCount++; if (scrollTimeout) clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => { handleScrollTransition(); scrollCount = 0; }, 200);
                 }
             });
-
-            function handleScrollTransition() {
-                if (scrollCount >= scrollThreshold) {
-                    if (currentState === 'initial') {
-                        expandToRoulette();
-                    } else if (currentState === 'expanded') {
-                        collapseToGallery();
-                    }
-                }
-            }
+            function handleScrollTransition() { if (scrollCount >= scrollThreshold) { if (currentState === 'initial') { expandToRoulette(); } else if (currentState === 'expanded') { collapseToGallery(); } } }
 
             // Infinite loop - when user reaches bottom, scroll back to top seamlessly
-            window.addEventListener('scroll', function() {
-                if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 100) {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+            window.addEventListener('scroll', function () { if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 100) { window.scrollTo({ top: 0, behavior: 'smooth' }); } });
 
             // Gallery navigation
             nextBtn.addEventListener('click', nextImage);
@@ -1087,35 +439,19 @@
             closeModal.addEventListener('click', closeGallery);
 
             // Keyboard navigation
-            let keyThrottle = false;
-            document.addEventListener('keydown', function(e) {
-                if (keyThrottle) return;
-                
-                if (galleryModal.style.display === 'block') {
-                    if (e.key === 'ArrowRight') nextImage();
-                    if (e.key === 'ArrowLeft') prevImage();
-                    if (e.key === 'Escape') closeGallery();
-                    
-                    keyThrottle = true;
-                    setTimeout(() => { keyThrottle = false; }, 200);
+            let keyThrottle = false; document.addEventListener('keydown', function (e) {
+                if (keyThrottle) return; if (galleryModal.style.display === 'block') {
+                    if (e.key === 'ArrowRight') nextImage(); if (e.key === 'ArrowLeft') prevImage(); if (e.key === 'Escape') closeGallery();
+                    keyThrottle = true; setTimeout(() => { keyThrottle = false; }, 200);
                 }
             });
 
             // Close modal when clicking outside image
-            galleryModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeGallery();
-                }
-            });
+            galleryModal.addEventListener('click', function (e) { if (e.target === this) { closeGallery(); } });
 
-            // Initial setup - header is hidden at start
-            mainNav.style.opacity = '0';
-            mainNav.style.transform = 'translateY(-20px)';
-            
-            // Hide all category cards initially
-            categoryCards.forEach(card => {
-                card.style.display = 'none';
-            });
+            // Initial setup - header is hidden at start & hide all cards
+            mainNav.style.opacity = '0'; mainNav.style.transform = 'translateY(-20px)';
+            document.querySelectorAll('.category-card').forEach(card => { card.style.display = 'none'; });
         });
     </script>
 </body>
